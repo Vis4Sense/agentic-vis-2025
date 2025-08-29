@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Research Report: Automated Visualization</title>
+  <script src='https://cdn.jsdelivr.net/npm/vega@5'></script>
+  <script src='https://cdn.jsdelivr.net/npm/vega-lite@5'></script>
+  <script src='https://cdn.jsdelivr.net/npm/vega-embed@6'></script>
+  <script src='https://cdn.tailwindcss.com'></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          typography: ({ theme }) => ({
+            DEFAULT: { css: { color: theme('colors.gray.800') } }
+          })
+        }
+      }
+    }
+  </script>
+</head>
+<body class='bg-white text-gray-800'>
+  <div id='progress-bar' class='fixed top-0 left-0 h-1 bg-black z-[9999]' style='width:0%'></div>  <nav class='sticky top-0 bg-white border-b border-gray-200 z-50'>
+    <div class='w-[95%] mx-auto px-6 py-3 flex justify-between items-center'>
+      <a href='#' class='font-bold text-lg'>Agentic VIS Report</a>
+      <div class='hidden md:flex items-center space-x-10 text-sm'>
+        <a href='https://www.visagent.org/' target='_blank' class='hover:text-primary-600 text-lg'>Challenge</a>
+        <a href='https://github.com/Vis4Sense/agentic-vis-2025' target='_blank'>
+          <img src='https://cdnjs.cloudflare.com/ajax/libs/simple-icons/9.16.0/github.svg' alt='GitHub' class='w-6 h-6'>
+        </a>
+      </div>
+      <button id='menu-btn' class='md:hidden flex items-center focus:outline-none'>
+        <svg xmlns='http://www.w3.org/2000/svg' class='w-6 h-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+          <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6h16M4 12h16M4 18h16' />
+        </svg>
+      </button>
+    </div>
+    <div id='mobile-menu' class='hidden md:hidden bg-white border-t border-gray-200'>
+      <div class='px-6 py-3 flex flex-col space-y-4'>
+        <a href='https://www.visagent.org/' target='_blank' class='hover:text-primary-600 text-lg'>Official Challenge Website</a>
+        <a href='https://github.com/Vis4Sense/agentic-vis-2025' target='_blank' class='flex items-center space-x-4'>
+          <img src='https://cdnjs.cloudflare.com/ajax/libs/simple-icons/9.16.0/github.svg' alt='GitHub' class='w-6 h-6'>
+          <span class='text-lg'>Project GitHub Repo</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+  <script>
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    btn.addEventListener('click', () => { menu.classList.toggle('hidden'); });
+  </script>
+  <main class='w-[90%] mx-auto px-6 py-12'>
+    <article class='prose prose-lg prose-gray'>
+<section class='mb-16'>
+<div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8'>
+  <script>
+    const reports = [
+      {
+        url: 'reports/car.html',
+        title: 'Auto MPG',
+        description: 'Trade-offs behind fuel economy: a multivariate exploration of the Auto MPG cars dataset (1970–1982)'
+      },
+      {
+        url: 'reports/data-science.html', 
+        title: 'Data Science',
+        description: 'Trends and engagement patterns in Towards Data Science articles since 2010.'
+      },
+      {
+        url: 'reports/pokemon.html',
+        title: 'Pokemon Stats', 
+        description: 'How to choose your best battle team (6-Pokemon)?'
+      }
+    ];
+
+    reports.forEach(report => {
+      document.write(`
+        <a href='${report.url}' class='block p-6 border rounded-lg hover:shadow-lg transition-shadow' target='_blank'>
+          <h3 class='text-xl font-semibold mb-3'>${report.title}</h3>
+          <p class='text-gray-600'>${report.description}</p>
+          <div class='relative w-full h-72 mt-4 border rounded overflow-hidden'>
+            <iframe src='${report.url}' class='absolute top-0 left-0 w-[500%] h-[500%] scale-[0.2] origin-top-left border-0'></iframe>
+          </div>
+        </a>
+      `);
+    });
+  </script>
+</div>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const toc = document.getElementById('toc');
+  if (!toc) return;
+
+  const headers = document.querySelectorAll('article h2, article h3');
+  headers.forEach(h => {
+    let id = h.textContent.trim().replace(/\s+/g, '-').toLowerCase();
+    h.setAttribute('id', id);
+
+    const link = document.createElement('a');
+    link.href = '#' + id;
+    link.textContent = h.textContent;
+    link.className = (h.tagName === 'H2'
+      ? 'block font-semibold mb-1'      : 'block ml-4 text-gray-500') + ' hover:text-primary-600';
+
+    toc.appendChild(link);
+  });
+});
+</script>
+    </article>
+  </main>
+  <footer class='border-t mt-12 py-6 text-center text-sm text-gray-500'>
+    © 2025 Agentic VIS
+  </footer>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+  const tocList = document.getElementById('toc-list');
+  const headers = document.querySelectorAll('article h2, article h3');
+  const links = [];
+
+  headers.forEach((h, idx) => {
+    let id = h.textContent.trim().replace(/\s+/g, '-').toLowerCase() + '-' + idx;
+    h.setAttribute('id', id);
+
+    const li = document.createElement('li');
+    li.className = 'flex items-center space-x-2';
+
+    const dot = document.createElement('span');
+    dot.className = 'w-2 h-2 rounded-full border border-gray-300';
+    li.appendChild(dot);
+
+    const link = document.createElement('a');
+    link.href = '#' + id;
+
+    const text = h.textContent.trim();
+    link.textContent = text.length > 40 ? text.slice(0, 37) + '…' : text;
+    link.title = text;
+
+    link.className = 'block truncate text-gray-400 hover:text-gray-600';
+    if (h.tagName === 'H3') {
+      link.className += ' ml-4';
+    }
+
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.getElementById(id);
+      if (target) {
+        const y = target.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    });
+
+    li.appendChild(link);
+    tocList.appendChild(li);
+    links.push({id, link, el: h, dot});
+  });
+
+  function onScroll() {
+    let scrollPos = document.documentElement.scrollTop || document.body.scrollTop;
+    let current;
+    links.forEach(item => {
+      if (item.el.offsetTop - 120 <= scrollPos) {
+        current = item;
+      }
+    });
+    links.forEach(item => {
+      item.link.classList.remove('font-semibold', 'text-black');
+      item.link.classList.add('text-gray-400');
+      item.dot.className = 'w-2 h-2 rounded-full border border-gray-300';
+    });
+    if (current) {
+      current.link.classList.remove('text-gray-400');
+      current.link.classList.add('font-semibold', 'text-black');
+      current.dot.className = 'w-2 h-2 rounded-full bg-black';
+    }
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+});
+</script>
+<script>
+window.addEventListener('scroll', function () {
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const progress = (scrollTop / docHeight) * 100;
+  document.getElementById('progress-bar').style.width = progress + '%';
+});
+</script></body>
+</html>
