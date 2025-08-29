@@ -1,0 +1,125 @@
+[
+    {
+        "objective": "Analyze citation trends over time",
+        "target_columns": [
+            "Year",
+            "CitationCount_CrossRef"
+        ],
+        "reason": "Understanding how citation counts evolve over the years can provide insights into the impact of research work and identify trends in the academic community.",
+        "priority": 8,
+        "suggested_ops": [
+            "line_trend"
+        ],
+        "description": "By analyzing the citation counts over the years, we can observe trends that may indicate the rising or declining influence of certain research topics. This analysis will help identify periods of significant academic interest or shifts in research focus, revealing how the community's attention has changed over time.",
+        "time_scope": {
+            "start_year": 1990,
+            "end_year": 2024,
+            "interval_years": 1
+        }
+    },
+    {
+        "objective": "Examine the relationship between citation counts and downloads",
+        "target_columns": [
+            "CitationCount_CrossRef",
+            "Downloads_Xplore"
+        ],
+        "reason": "Investigating the correlation between citations and downloads can reveal how access to research correlates with its academic impact.",
+        "priority": 7,
+        "suggested_ops": [
+            "scatter_corr"
+        ],
+        "description": "This analysis will explore whether papers that are downloaded more frequently also receive more citations. A strong correlation could indicate that greater accessibility leads to higher academic recognition, while a weak correlation may suggest other factors at play.",
+        "time_scope": {}
+    },
+    {
+        "objective": "Investigate changes in paper types over time",
+        "target_columns": [
+            "Year",
+            "PaperType"
+        ],
+        "reason": "Understanding how the types of papers published evolve over time can shed light on shifting research methodologies and topics of interest.",
+        "priority": 6,
+        "suggested_ops": [
+            "bar_group"
+        ],
+        "description": "By grouping paper types by year, we can visualize how the focus of research has shifted over the years. This analysis will help identify emerging research areas and the decline of others, providing a comprehensive view of academic trends.",
+        "time_scope": {
+            "start_year": 1990,
+            "end_year": 2024,
+            "interval_years": 1
+        }
+    },
+    {
+        "objective": "Explore the distribution of downloads across different paper types",
+        "target_columns": [
+            "Downloads_Xplore",
+            "PaperType"
+        ],
+        "reason": "Analyzing downloads by paper type can highlight which types of research are more popular or accessible to the audience.",
+        "priority": 5,
+        "suggested_ops": [
+            "box_by_category"
+        ],
+        "description": "This investigation will compare the distribution of downloads across different types of papers. By visualizing this data, we can identify which types of research are most engaging to readers, potentially guiding future research directions.",
+        "time_scope": {}
+    },
+    {
+        "objective": "Examine author keyword trends over time",
+        "target_columns": [
+            "Year",
+            "AuthorKeywords"
+        ],
+        "reason": "Tracking the evolution of author keywords can reveal shifts in research focus and emerging topics of interest.",
+        "priority": 6,
+        "suggested_ops": [
+            "heatmap_xy"
+        ],
+        "description": "This analysis will visualize how the frequency of specific author keywords changes over time, allowing us to identify emerging research trends and the fading of others. Understanding these shifts can help researchers align their work with current academic interests.",
+        "time_scope": {
+            "start_year": 1990,
+            "end_year": 2024,
+            "interval_years": 1
+        }
+    },
+    {
+        "objective": "Analyze the relationship between author keywords and citation counts",
+        "target_columns": [
+            "AuthorKeywords",
+            "CitationCount_CrossRef"
+        ],
+        "reason": "Understanding which keywords correlate with higher citation counts can help identify influential research areas.",
+        "priority": 5,
+        "suggested_ops": [
+            "scatter_corr"
+        ],
+        "description": "By examining the relationship between author keywords and citation counts, we can identify which topics tend to attract more academic attention. This analysis can guide future research efforts and funding decisions.",
+        "time_scope": {}
+    },
+    {
+        "objective": "Investigate the relationship between downloads and author keywords",
+        "target_columns": [
+            "Downloads_Xplore",
+            "AuthorKeywords"
+        ],
+        "reason": "Understanding which keywords are associated with higher downloads can inform authors about popular topics.",
+        "priority": 5,
+        "suggested_ops": [
+            "scatter_corr"
+        ],
+        "description": "This analysis will explore how author keywords relate to the number of downloads, providing insights into which topics are gaining traction among readers. This could influence future research directions and publication strategies.",
+        "time_scope": {}
+    },
+    {
+        "objective": "Analyze the distribution of citation counts",
+        "target_columns": [
+            "CitationCount_CrossRef"
+        ],
+        "reason": "Understanding the distribution of citation counts can help identify outliers and the general impact of research.",
+        "priority": 6,
+        "suggested_ops": [
+            "histogram"
+        ],
+        "description": "By visualizing the distribution of citation counts, we can identify how many papers are highly cited versus those with few citations. This analysis will help understand the overall impact of research published in the dataset and highlight influential works.",
+        "time_scope": {}
+    }
+]

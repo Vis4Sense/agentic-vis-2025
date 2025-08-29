@@ -1,0 +1,54 @@
+dataset: "Pokemon.csv"
+
+topic: "How to choose your best battle team (6-Pokemon)?"
+
+target_audience: >
+  Visualization researchers, data science students, and competitive Pokémon
+  players who care about multivariate team composition, type synergy, coverage,
+  and trade-offs when selecting a 6-Pokémon battle team; also suitable as a
+  benchmark for auto-charting/recommendation systems.
+
+domain_knowledge: |
+  Dataset: Pokémon stats for team-building.
+
+  Columns:
+  - #: ID for each Pokémon
+  - Name: Name of each Pokémon
+  - Type 1: Primary type; determines weakness/resistance
+  - Type 2: Secondary type (may be empty)
+  - Total: Sum of all base stats below (strength proxy)
+  - HP: Hit points (health)
+  - Attack: Base modifier for normal/physical attacks
+  - Defense: Base resistance against physical attacks
+  - SP Atk: Special attack (e.g., Fire Blast, Bubble Beam)
+  - SP Def: Special defense (resistance vs. special attacks)
+  - Speed: Turn order (who moves first)
+
+  Known quirks & cleaning:
+  - Column names include spaces and case differences; use exact names or rename:
+    {"SP Atk":"Sp. Atk","SP Def":"Sp. Def"} if needed for consistency.
+  - Type 2 may be missing/blank → treat as None/"None".
+  - Strip whitespace in Name/Type fields to avoid duplicate categories.
+  - Ensure numeric fields are parsed as numbers (Total, HP, Attack, Defense, SP Atk, SP Def, Speed).
+
+  Useful derived features for team analysis:
+  - Offensive balance = (Attack + `SP Atk`) / 2
+  - Defensive balance = (Defense + `SP Def`) / 2
+  - Bulk index = HP * (Defense + `SP Def`) / 2
+  - Speed tier = buckets (e.g., <50 slow, 50–100 mid, >100 fast)
+  - Type coverage = count of distinct types across Type 1/Type 2 in team of 6
+  - Glass-cannon flag = (Speed > 100) and (Defense + `SP Def` < 120)
+
+  Example vega-lite filter:
+  # Pick Fire or Water as core attackers
+  test(/^(Fire|Water)$/i, (datum['Type 1'] || '') + ' ' + (datum['Type 2'] || '')) ? 'ElementalCore' : 'Other'
+
+dataset_url: https://raw.githubusercontent.com/the-lord-of-stars/mini-template/dev-yuhan/studio/testing/pokemon/Pokemon.csv
+
+max_section_number: 5
+
+max_analyses_per_section: 1
+
+dev: false
+
+thread_to_load: thread_20250819_125735

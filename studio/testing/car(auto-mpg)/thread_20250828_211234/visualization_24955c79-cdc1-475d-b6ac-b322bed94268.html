@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "vconcat": [{"data": {"name": "data-f7af17091f43bd6ac083f8066d588fdb"}, "facet": {"column": {"field": "metric", "title": null, "type": "nominal"}}, "spec": {"layer": [{"mark": {"type": "area", "opacity": 0.2}, "encoding": {"color": {"field": "metric", "legend": null, "type": "nominal"}, "x": {"field": "year", "title": "Model year", "type": "quantitative"}, "y": {"field": "q25", "type": "quantitative"}, "y2": {"field": "q75"}}}, {"mark": {"type": "line", "point": true}, "encoding": {"color": {"field": "metric", "legend": null, "type": "nominal"}, "tooltip": [{"field": "metric", "type": "nominal"}, {"field": "year", "type": "quantitative"}, {"field": "median", "type": "quantitative"}, {"field": "q25", "type": "quantitative"}, {"field": "q75", "type": "quantitative"}], "x": {"field": "year", "type": "quantitative"}, "y": {"field": "median", "title": "", "type": "quantitative"}}}], "height": 140, "width": 220}}, {"data": {"name": "data-5df6b2179cd99eaf5cee4c9bcbf15c35"}, "mark": {"type": "bar"}, "encoding": {"color": {"field": "predictor", "title": "Predictor", "type": "nominal"}, "tooltip": [{"field": "era", "type": "nominal"}, {"field": "predictor", "type": "nominal"}, {"field": "slope", "type": "quantitative"}], "x": {"field": "era", "title": "Era", "type": "nominal"}, "xOffset": {"field": "predictor", "type": "nominal"}, "y": {"field": "slope", "title": "Slope (d mpg / d predictor)", "type": "quantitative"}}, "height": 220, "width": 700}], "resolve": {"scale": {"color": "independent"}}, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-f7af17091f43bd6ac083f8066d588fdb": [{"year": 1970, "metric": "mpg", "median": 16.0, "q25": 14.0, "q75": 22.0}, {"year": 1970, "metric": "weight", "median": 3449.0, "q25": 2648.0, "q75": 4312.0}, {"year": 1970, "metric": "horsepower", "median": 150.0, "q25": 95.0, "q75": 198.0}, {"year": 1970, "metric": "power_to_weight", "median": 0.0436554132712456, "q25": 0.0371004566210045, "q75": 0.0477126017401066}, {"year": 1971, "metric": "mpg", "median": 19.0, "q25": 15.5, "q75": 27.0}, {"year": 1971, "metric": "weight", "median": 2798.0, "q25": 2110.75, "q75": 3603.25}, {"year": 1971, "metric": "horsepower", "median": 95.0, "q25": 81.0, "q75": 130.0}, {"year": 1971, "metric": "power_to_weight", "median": 0.03662109375, "q25": 0.0316237538301914, "q75": 0.0389702246794192}, {"year": 1972, "metric": "mpg", "median": 18.5, "q25": 13.75, "q75": 23.0}, {"year": 1972, "metric": "weight", "median": 2956.0, "q25": 2285.5, "q75": 4169.75}, {"year": 1972, "metric": "horsepower", "median": 104.5, "q25": 86.75, "q75": 150.75}, {"year": 1972, "metric": "power_to_weight", "median": 0.0375023830880445, "q25": 0.03553726769750045, "q75": 0.039984032501136225}, {"year": 1973, "metric": "power_to_weight", "median": 0.03666212744425035, "q25": 0.03394042099550637, "q75": 0.041608257932968004}, {"year": 1973, "metric": "horsepower", "median": 129.5, "q25": 93.25, "q75": 160.25}, {"year": 1973, "metric": "mpg", "median": 16.0, "q25": 13.0, "q75": 20.0}, {"year": 1973, "metric": "weight", "median": 3338.5, "q25": 2554.5, "q75": 4247.25}, {"year": 1974, "metric": "mpg", "median": 24.0, "q25": 16.0, "q75": 27.0}, {"year": 1974, "metric": "weight", "median": 2489.0, "q25": 2116.5, "q75": 3622.5}, {"year": 1974, "metric": "horsepower", "median": 88.0, "q25": 75.0, "q75": 103.75}, {"year": 1974, "metric": "power_to_weight", "median": 0.033577462418667256, "q25": 0.03049708963311955, "q75": 0.0350447793390483}, {"year": 1975, "metric": "mpg", "median": 19.5, "q25": 16.0, "q75": 23.0}, {"year": 1975, "metric": "weight", "median": 3098.5, "q25": 2676.75, "q75": 3662.25}, {"year": 1975, "metric": "horsepower", "median": 97.0, "q25": 84.25, "q75": 110.0}, {"year": 1975, "metric": "power_to_weight", "median": 0.032222761912687095, "q25": 0.029499578065373698, "q75": 0.0350842344777636}, {"year": 1976, "metric": "power_to_weight", "median": 0.0334032203187214, "q25": 0.029582992740910377, "q75": 0.03599614401345343}, {"year": 1976, "metric": "horsepower", "median": 93.5, "q25": 78.25, "q75": 120.0}, {"year": 1976, "metric": "weight", "median": 3171.5, "q25": 2228.75, "q75": 3803.75}, {"year": 1976, "metric": "mpg", "median": 21.0, "q25": 16.75, "q75": 26.375}, {"year": 1977, "metric": "mpg", "median": 21.75, "q25": 17.375, "q75": 30.0}, {"year": 1977, "metric": "weight", "median": 2747.5, "q25": 2135.0, "q75": 3925.0}, {"year": 1977, "metric": "horsepower", "median": 97.5, "q25": 78.0, "q75": 115.0}, {"year": 1977, "metric": "power_to_weight", "median": 0.03441482747105735, "q25": 0.03164811643835615, "q75": 0.040051546391752575}, {"year": 1978, "metric": "mpg", "median": 20.700000000000003, "q25": 19.349999999999998, "q75": 28.0}, {"year": 1978, "metric": "weight", "median": 2910.0, "q25": 2282.5, "q75": 3410.0}, {"year": 1978, "metric": "horsepower", "median": 97.0, "q25": 82.5, "q75": 116.25}, {"year": 1978, "metric": "power_to_weight", "median": 0.03406507530548445, "q25": 0.0303177890045617, "q75": 0.038422418147586825}, {"year": 1979, "metric": "horsepower", "median": 90.0, "q25": 77.0, "q75": 125.0}, {"year": 1979, "metric": "power_to_weight", "median": 0.0337078651685393, "q25": 0.0318181818181818, "q75": 0.0352480417754569}, {"year": 1979, "metric": "mpg", "median": 23.9, "q25": 19.2, "q75": 31.8}, {"year": 1979, "metric": "weight", "median": 3190.0, "q25": 2556.0, "q75": 3725.0}, {"year": 1980, "metric": "mpg", "median": 32.7, "q25": 29.8, "q75": 38.1}, {"year": 1980, "metric": "weight", "median": 2335.0, "q25": 2110.0, "q75": 2800.0}, {"year": 1980, "metric": "horsepower", "median": 75.0, "q25": 66.0, "q75": 90.0}, {"year": 1980, "metric": "power_to_weight", "median": 0.0321941555225359, "q25": 0.030228917424039298, "q75": 0.0353238805970149}, {"year": 1981, "metric": "mpg", "median": 31.6, "q25": 26.6, "q75": 34.4}, {"year": 1981, "metric": "weight", "median": 2385.0, "q25": 2065.0, "q75": 2900.0}, {"year": 1981, "metric": "horsepower", "median": 75.5, "q25": 65.0, "q75": 89.0}, {"year": 1981, "metric": "power_to_weight", "median": 0.0326784564930885, "q25": 0.028679236931793, "q75": 0.034164231738035226}, {"year": 1982, "metric": "horsepower", "median": 84.0, "q25": 70.0, "q75": 88.0}, {"year": 1982, "metric": "mpg", "median": 32.0, "q25": 27.0, "q75": 36.0}, {"year": 1982, "metric": "weight", "median": 2525.0, "q25": 2127.5, "q75": 2727.5}, {"year": 1982, "metric": "power_to_weight", "median": 0.033582103406664746, "q25": 0.03141322387932065, "q75": 0.03555321597336132}], "data-5df6b2179cd99eaf5cee4c9bcbf15c35": [{"era": "1970\u201373", "predictor": "weight", "slope": -0.005291383409287425}, {"era": "1970\u201373", "predictor": "horsepower", "slope": -0.09857541196896195}, {"era": "1974\u201379", "predictor": "weight", "slope": -0.007090584831520727}, {"era": "1974\u201379", "predictor": "horsepower", "slope": -0.1668023905988602}, {"era": "1980\u201382", "predictor": "weight", "slope": -0.01008029461166324}, {"era": "1980\u201382", "predictor": "horsepower", "slope": -0.24772236564791478}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

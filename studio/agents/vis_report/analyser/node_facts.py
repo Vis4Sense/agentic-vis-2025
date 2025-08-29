@@ -1,0 +1,109 @@
+from typing_extensions import TypedDict
+from langchain_core.messages import HumanMessage, SystemMessage
+from pydantic import BaseModel, Field
+import json
+
+from helpers import get_llm, get_dataset_info, query_by_sql
+from agents.vis_report.analyser.state import State, Model
+from agents.vis_report.analyser.memory import memory
+from agents.vis_report.analyser.sandbox import run_in_sandbox, run_in_sandbox_with_venv
+
+from agents.vis_report.load_config import config
+
+
+def extract_facts(state: State):
+    """
+    Generate python code to get the facts about the dataset.
+    """
+
+    if config["dev"]:
+        if "knowledge" in state and state["knowledge"]:
+            return state
+
+    fact_term = "facts"
+
+    llm = get_llm(temperature=0, max_tokens=8192)
+
+    # Get path of the main program being executed
+    dataset_info = get_dataset_info(config['dataset']) # TODO: use transformed data
+
+    sys_prompt = f"""
+        You are a data analyst who write python script to analyse the dataset.
+
+        The dataset is as follows:
+        {dataset_info}
+
+        Please generate a python code to analyse the dataset, the goal is to get {fact_term} about the dataset that can answer the given question.
+
+        You should read the dataset from the following path:
+        {config['dataset']}
+
+        Background information:
+        General topic: {config['topic']}
+
+        Analysis requirement:
+        {state['analysis_schema']['information_needed']}
+
+        Requirements:
+        1. only get the most relevant {fact_term}, don't generate too many.
+        2. make the code concise
+        3. example {fact_term}: statistics, top k papers, trends, most cited authors, etc. you are free to choose the {fact_term} that are most relevant to the question. just keep in mind that you are an expert in data analysis.
+        4. the {fact_term} should be relevant to the question
+        5. irrelevant or meaningless facts should be avoided
+        6. each {fact_term} should be printed as:
+            ### Begin of {fact_term}
+            <{fact_term}>
+            ### End of {fact_term}
+        7. feel free to use python libraries to help you analyse the dataset. supported libraries: pandas, numpy, matplotlib, seaborn, networkx.
+        8. make sure the code is executable.
+        9. if the question is too complex and can not be solved by a short code, just ignore it and do the most basic and simple analysis.
+        10. the code should be short and concise.
+
+        You may refer to the following domain knowledge, if needed:
+        {config['domain_knowledge']}
+    """
+
+    human_prompt = f"""
+    Please generate the python code.
+    """
+
+    class ResponseFormatter(BaseModel):
+        model: Model
+
+    response = llm.with_structured_output(ResponseFormatter).invoke(
+        [SystemMessage(content=sys_prompt), HumanMessage(content=human_prompt)]
+    )
+
+    new_state = state.copy()
+    new_state["model"] = response.model
+    memory.add_state(new_state)
+
+    # Run the code in sandbox
+    try:
+        result = run_in_sandbox_with_venv(response.model["python_script"])
+    except Exception as e:
+        # TODO: send error message to llm to fix the code
+        result = {
+            "stdout": "",
+            "stderr": str(e),
+            "exit_code": 1
+        }
+    print(result)
+
+    # new_state = state.copy()
+    # new_state["facts"] = {
+    #     "code": response.code,
+    #     "stdout": result["stdout"],
+    #     "stderr": result["stderr"],
+    #     "exit_code": result["exit_code"]
+    # }
+
+    if result["exit_code"] == 0:
+        new_state["knowledge"] = {
+            "facts": result["stdout"],
+        }
+
+    # Save the state to memory
+    memory.add_state(new_state)
+
+    return new_state

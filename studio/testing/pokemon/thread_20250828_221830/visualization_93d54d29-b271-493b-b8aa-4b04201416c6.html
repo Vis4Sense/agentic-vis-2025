@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "hconcat": [{"layer": [{"mark": {"type": "bar"}, "encoding": {"color": {"field": "Type 1", "title": "Primary Type", "type": "nominal"}, "tooltip": [{"field": "Name", "type": "nominal"}, {"field": "Type 1", "type": "nominal"}, {"field": "Type 2", "type": "nominal"}, {"field": "Speed", "type": "quantitative"}, {"field": "Bulk index", "type": "quantitative"}, {"field": "score", "type": "quantitative"}], "x": {"field": "score", "title": "Suggestion score", "type": "quantitative"}, "y": {"field": "Name", "sort": "-x", "title": "Pokemon", "type": "nominal"}}, "title": "Top-5 Suggestions (defaults: speed>=60, bulk>800)"}, {"mark": {"type": "text", "align": "left", "dx": 3}, "encoding": {"text": {"field": "Type 1", "type": "nominal"}, "x": {"field": "score", "type": "quantitative"}, "y": {"field": "Name", "sort": "-x", "type": "nominal"}}}], "data": {"name": "data-323d16e19478152ef8f951494e6358d0"}, "height": 200, "width": 420}, {"layer": [{"mark": {"type": "rect"}, "encoding": {"color": {"field": "count", "scale": {"scheme": "greens"}, "title": "Co-occurrence", "type": "quantitative"}, "tooltip": [{"field": "type_x", "type": "nominal"}, {"field": "type_y", "type": "nominal"}, {"field": "count", "type": "quantitative"}], "x": {"field": "type_x", "title": "Type A", "type": "nominal"}, "y": {"field": "type_y", "title": "Type B", "type": "nominal"}}, "title": "Pairwise Type Co-occurrence (top-5 suggestions)"}, {"mark": {"type": "text", "color": "black", "fontSize": 12}, "encoding": {"text": {"field": "count", "type": "quantitative"}, "x": {"field": "type_x", "type": "nominal"}, "y": {"field": "type_y", "type": "nominal"}}}], "data": {"name": "data-b8ca7d9d135ce9c68ac5543fa64e5ee6"}, "height": 420, "width": 420}], "resolve": {"scale": {"color": "independent"}}, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-323d16e19478152ef8f951494e6358d0": [{"#": 150, "Name": "MewtwoMega Mewtwo Y", "Type 1": "Psychic", "Type 2": "", "Total": 780, "HP": 106, "Attack": 150, "Defense": 70, "Sp. Atk": 194, "Sp. Def": 120, "Speed": 140, "Generation": 1, "Legendary": 1, "Offensive balance": 172.0, "Defensive balance": 95.0, "Bulk index": 10070.0, "Speed tier": "Fast", "Glass-cannon flag": 0, "Label": "MewtwoMega Mewtwo Y (Psychic)", "score": 0.7410802919708028}, {"#": 150, "Name": "MewtwoMega Mewtwo X", "Type 1": "Psychic", "Type 2": "Fighting", "Total": 780, "HP": 106, "Attack": 190, "Defense": 100, "Sp. Atk": 154, "Sp. Def": 100, "Speed": 130, "Generation": 1, "Legendary": 1, "Offensive balance": 172.0, "Defensive balance": 100.0, "Bulk index": 10600.0, "Speed tier": "Fast", "Glass-cannon flag": 0, "Label": "MewtwoMega Mewtwo X (Psychic/Fighting)", "score": 0.7253649635036497}, {"#": 384, "Name": "RayquazaMega Rayquaza", "Type 1": "Dragon", "Type 2": "Flying", "Total": 780, "HP": 105, "Attack": 180, "Defense": 100, "Sp. Atk": 180, "Sp. Def": 100, "Speed": 115, "Generation": 3, "Legendary": 1, "Offensive balance": 180.0, "Defensive balance": 100.0, "Bulk index": 10500.0, "Speed tier": "Fast", "Glass-cannon flag": 0, "Label": "RayquazaMega Rayquaza (Dragon/Flying)", "score": 0.7061131386861313}, {"#": 382, "Name": "KyogrePrimal Kyogre", "Type 1": "Water", "Type 2": "", "Total": 770, "HP": 100, "Attack": 150, "Defense": 90, "Sp. Atk": 180, "Sp. Def": 160, "Speed": 90, "Generation": 3, "Legendary": 1, "Offensive balance": 165.0, "Defensive balance": 125.0, "Bulk index": 12500.0, "Speed tier": "Mid", "Glass-cannon flag": 0, "Label": "KyogrePrimal Kyogre (Water)", "score": 0.6411496350364964}, {"#": 383, "Name": "GroudonPrimal Groudon", "Type 1": "Ground", "Type 2": "Fire", "Total": 770, "HP": 100, "Attack": 180, "Defense": 160, "Sp. Atk": 150, "Sp. Def": 90, "Speed": 90, "Generation": 3, "Legendary": 1, "Offensive balance": 165.0, "Defensive balance": 125.0, "Bulk index": 12500.0, "Speed tier": "Mid", "Glass-cannon flag": 0, "Label": "GroudonPrimal Groudon (Ground/Fire)", "score": 0.6411496350364964}], "data-b8ca7d9d135ce9c68ac5543fa64e5ee6": [{"type_x": "Psychic", "type_y": "Psychic", "count": 2}, {"type_x": "Psychic", "type_y": "Fighting", "count": 1}, {"type_x": "Psychic", "type_y": "Dragon", "count": 0}, {"type_x": "Psychic", "type_y": "Flying", "count": 0}, {"type_x": "Psychic", "type_y": "Water", "count": 0}, {"type_x": "Psychic", "type_y": "Ground", "count": 0}, {"type_x": "Psychic", "type_y": "Fire", "count": 0}, {"type_x": "Fighting", "type_y": "Psychic", "count": 1}, {"type_x": "Fighting", "type_y": "Fighting", "count": 1}, {"type_x": "Fighting", "type_y": "Dragon", "count": 0}, {"type_x": "Fighting", "type_y": "Flying", "count": 0}, {"type_x": "Fighting", "type_y": "Water", "count": 0}, {"type_x": "Fighting", "type_y": "Ground", "count": 0}, {"type_x": "Fighting", "type_y": "Fire", "count": 0}, {"type_x": "Dragon", "type_y": "Psychic", "count": 0}, {"type_x": "Dragon", "type_y": "Fighting", "count": 0}, {"type_x": "Dragon", "type_y": "Dragon", "count": 1}, {"type_x": "Dragon", "type_y": "Flying", "count": 1}, {"type_x": "Dragon", "type_y": "Water", "count": 0}, {"type_x": "Dragon", "type_y": "Ground", "count": 0}, {"type_x": "Dragon", "type_y": "Fire", "count": 0}, {"type_x": "Flying", "type_y": "Psychic", "count": 0}, {"type_x": "Flying", "type_y": "Fighting", "count": 0}, {"type_x": "Flying", "type_y": "Dragon", "count": 1}, {"type_x": "Flying", "type_y": "Flying", "count": 1}, {"type_x": "Flying", "type_y": "Water", "count": 0}, {"type_x": "Flying", "type_y": "Ground", "count": 0}, {"type_x": "Flying", "type_y": "Fire", "count": 0}, {"type_x": "Water", "type_y": "Psychic", "count": 0}, {"type_x": "Water", "type_y": "Fighting", "count": 0}, {"type_x": "Water", "type_y": "Dragon", "count": 0}, {"type_x": "Water", "type_y": "Flying", "count": 0}, {"type_x": "Water", "type_y": "Water", "count": 1}, {"type_x": "Water", "type_y": "Ground", "count": 0}, {"type_x": "Water", "type_y": "Fire", "count": 0}, {"type_x": "Ground", "type_y": "Psychic", "count": 0}, {"type_x": "Ground", "type_y": "Fighting", "count": 0}, {"type_x": "Ground", "type_y": "Dragon", "count": 0}, {"type_x": "Ground", "type_y": "Flying", "count": 0}, {"type_x": "Ground", "type_y": "Water", "count": 0}, {"type_x": "Ground", "type_y": "Ground", "count": 1}, {"type_x": "Ground", "type_y": "Fire", "count": 1}, {"type_x": "Fire", "type_y": "Psychic", "count": 0}, {"type_x": "Fire", "type_y": "Fighting", "count": 0}, {"type_x": "Fire", "type_y": "Dragon", "count": 0}, {"type_x": "Fire", "type_y": "Flying", "count": 0}, {"type_x": "Fire", "type_y": "Water", "count": 0}, {"type_x": "Fire", "type_y": "Ground", "count": 1}, {"type_x": "Fire", "type_y": "Fire", "count": 1}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

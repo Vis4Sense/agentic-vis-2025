@@ -1,0 +1,62 @@
+from typing_extensions import TypedDict
+
+
+class Config(TypedDict):
+    dataset: str
+    topic: str
+    target_audience: str
+    domain_knowledge: str
+
+
+dataset = "auto-mpg.csv"
+topic = "Trade-offs behind fuel economy: a multivariate exploration of the Auto MPG cars dataset (1970–1982)"
+
+target_audience = "Visualization researchers and students interested in multivariate relationships, model year trends, and origin differences; also suitable as a benchmark for auto-charting/recommendation systems."
+
+domain_knowledge = """
+Dataset: Auto MPG (commonly used in vis/ML teaching). Typical fields:
+- mpg (fuel economy)
+- cylinders (integer; treat as categorical)
+- displacement (cubic inches)
+- horsepower (string with possible '?' → missing)
+- weight (pounds)
+- acceleration (0–60 mph time)
+- model year (last two digits, e.g., 70..82)
+- origin (1=USA, 2=Europe, 3=Japan) — sometimes already labeled
+- car name (free text: brand + model)
+
+Known quirks & cleaning:
+- horsepower may contain '?' → set to null, then cast to number.
+- model_year is two-digit; for plotting on a real timeline, map to 1900 + year (e.g., 70→1970).
+- origin may be numeric; map to labels {"1":"USA","2":"Europe","3":"Japan"}.
+- cylinders is better treated as an ordered category (4,5,6,8).
+
+Derived features (useful for analysis & recommendation):
+- power_to_weight = horsepower / weight
+- displacement_per_cyl = displacement / cylinders
+- hp_per_litre = horsepower / (displacement / 61.024)   # 1 litre ≈ 61.024 cu in
+- weight_kg = weight * 0.453592
+- log_weight = log(weight)
+- era buckets: 1970–73, 1974–79, 1980–82 (for oil-crisis trend analysis)
+
+An example vega-lite filter:
+test(/^(?:2|3)$/i, (datum['cylinders'] || '')) ? 'LowPower' : 'HighPower'
+"""
+
+
+
+config = {
+    "dataset": dataset,
+    "dataset_url": "https://raw.githubusercontent.com/the-lord-of-stars/mini-template/dev-yuhan/studio/auto-mpg.csv",
+    "topic": topic,
+    "target_audience": target_audience,
+    "domain_knowledge": domain_knowledge,
+
+
+    "max_section_number": 8,
+    "max_analyses_per_section": 3,
+
+    # TODO: remove this when submitting
+    "dev": False,
+    "thread_to_load": "thread_20250821_095007",
+}

@@ -1,0 +1,48 @@
+dataset: "tds_data.csv"
+
+topic: "Trends and engagement patterns in Towards Data Science articles since 2010"
+
+target_audience: >
+  Visualization researchers, data science students, and Medium/TDS readers 
+  interested in publishing activity, author contributions, and audience 
+  engagement (claps, responses, reading time). Also suitable as a benchmark 
+  for automated article analytics and visualization systems.
+
+domain_knowledge: |
+  Dataset: Towards Data Science articles (since 2010).
+
+  Columns:
+  - publish_date: Date the article was published
+  - title: Title of the article
+  - author: Author name(s)
+  - url: Link to the article
+  - claps: Number of claps (engagement proxy)
+  - responses: Number of responses/comments
+  - reading_time: Estimated reading time (minutes, based on ~265 WPM)
+  - paid: Indicator if the article belongs to the Medium Partner Program (paid)
+
+  Known quirks & cleaning:
+  - publish_date stored as string; convert to datetime for time-series analysis.
+  - claps and responses may contain missing values → normalise to 0.
+  - paid sometimes encoded as text ("free"/"paid") → normalise to boolean.
+  - Remove duplicates in title/url if crawled multiple times.
+
+  Useful derived features for analysis:
+  - Engagement score = claps + 10 × responses
+  - Avg. claps per response = claps / max(1, responses)
+  - Reading efficiency = claps / reading_time
+  - Monthly publication count = group by year-month of publish_date
+  - Paid ratio = fraction of articles with paid=True over time
+
+  Example Vega-Lite filter:
+  datum['paid'] == true && datum['claps'] > 100 ? 'PopularPaid' : 'Other'
+
+dataset_url: https://raw.githubusercontent.com/the-lord-of-stars/mini-template/dev-yuhan/studio/testing/data_science/tds_data.csv
+
+max_section_number: 5
+
+max_analyses_per_section: 1
+
+dev: false
+
+thread_to_load: thread_20250828_173657

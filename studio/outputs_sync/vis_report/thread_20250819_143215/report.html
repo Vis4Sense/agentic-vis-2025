@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Research Report: Automated Visualization</title>
+  <script src='https://cdn.jsdelivr.net/npm/vega@5'></script>
+  <script src='https://cdn.jsdelivr.net/npm/vega-lite@5'></script>
+  <script src='https://cdn.jsdelivr.net/npm/vega-embed@6'></script>
+  <script src='https://cdn.tailwindcss.com'></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          typography: ({ theme }) => ({
+            DEFAULT: { css: { color: theme('colors.gray.800') } }
+          })
+        }
+      }
+    }
+  </script>
+</head>
+<body class='bg-white text-gray-800'>
+  <div id='progress-bar' class='fixed top-0 left-0 h-1 bg-black z-[9999]' style='width:0%'></div>  <nav class='sticky top-0 bg-white border-b border-gray-200 z-50'>
+    <div class='w-[95%] mx-auto px-6 py-3 flex justify-between items-center'>
+      <a href='#' class='font-bold text-lg'>Agentic VIS Report</a>
+      <div class='hidden md:flex items-center space-x-10 text-sm'>
+        <a href='https://www.visagent.org/' target='_blank' class='hover:text-primary-600 text-lg'>Challenge</a>
+        <a href='https://github.com/the-lord-of-stars/mini-template' target='_blank'>
+          <img src='https://cdnjs.cloudflare.com/ajax/libs/simple-icons/9.16.0/github.svg' alt='GitHub' class='w-6 h-6'>
+        </a>
+      </div>
+      <button id='menu-btn' class='md:hidden flex items-center focus:outline-none'>
+        <svg xmlns='http://www.w3.org/2000/svg' class='w-6 h-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+          <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6h16M4 12h16M4 18h16' />
+        </svg>
+      </button>
+    </div>
+    <div id='mobile-menu' class='hidden md:hidden bg-white border-t border-gray-200'>
+      <div class='px-6 py-3 flex flex-col space-y-4'>
+        <a href='https://www.visagent.org/' target='_blank' class='hover:text-primary-600 text-lg'>Official Challenge Website</a>
+        <a href='https://github.com/the-lord-of-stars/mini-template' target='_blank' class='flex items-center space-x-4'>
+          <img src='https://cdnjs.cloudflare.com/ajax/libs/simple-icons/9.16.0/github.svg' alt='GitHub' class='w-6 h-6'>
+          <span class='text-lg'>Project GitHub Repo</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+  <script>
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    btn.addEventListener('click', () => { menu.classList.toggle('hidden'); });
+  </script>
+  <nav class='hidden lg:block fixed top-20 left-6 w-[15%] h-[80vh] overflow-y-auto
+               p-4 text-sm'
+       aria-label='Table of contents'>
+    <h2 class='font-semibold text-gray-900 mb-3'>Table of contents</h2>
+    <ol id='toc-list' class='space-y-2'></ol>
+  </nav>
+  <main class='w-[90%] max-w-3xl mx-auto px-6 py-12 lg:w-[75%] lg:ml-[20%] lg:max-w-none lg:mx-0'>
+    <header class='text-center mb-12'>
+      <h1 class='text-4xl font-bold text-gray-900 mb-4'>What happened to research on automated visualization?</h1>
+       <p class='text-lg text-gray-600'>Generated on 2025-08-21 </p>
+    </header>
+    <article class='prose prose-lg prose-gray'>
+<section class='mb-16'>
+  <h2 class='text-3xl font-bold mb-6 border-b border-gray-200 pb-2'>
+    1. Executive summary and key questions
+  </h2>
+  <div class='space-y-10'>
+    <div class='prose prose-lg prose-gray max-w-none'>
+      <p class="text-gray-700 leading-relaxed mb-4">We set out to understand how much attention automated visualization (AutoVis) has received in the Vis literature, how its topics have shifted over time, who the key actors are, and whether AutoVis work is influential and reproducible. High-level takeaways are that AutoVis papers form a small but visible niche (roughly 2% of the corpus), with clear bursts of activity around 2015 and a pronounced peak in 2021; topical emphasis has shifted toward recommendation, mixed-initiative, and ML-driven methods while some traditional visualization-method topics have waned; and a modest set of researchers and groups produce a disproportionate share of the work. This report answers concrete questions about volume and timing (when did AutoVis grow or spike), topical evolution (which subtopics emerged or declined), influence (which papers/authors/institutions stand out), community structure (collaboration patterns and venue distribution), and methodological robustness (how reliably can we identify AutoVis papers and how often are reproducibility practices reported).</p>
+    </div>
+  </div>
+</section>
+<section class='mb-16'>
+  <h2 class='text-3xl font-bold mb-6 border-b border-gray-200 pb-2'>
+    2. Data & identification strategy
+  </h2>
+  <div class='space-y-10'>
+    <div class='prose prose-lg prose-gray max-w-none'>
+      <p class="text-gray-700 leading-relaxed mb-4">The analysis uses a Vis publication dataset spanning 1990–2024 with fields including Year, Title, Abstract, AuthorKeywords, Citation counts (CrossRef and Aminer), Downloads (Xplore), PaperType, Award, GraphicsReplicabilityStamp, AuthorNames, and AuthorAffiliation. AutoVis papers are identified with a case-insensitive keyword rule that searches Title, Abstract, and AuthorKeywords for phrases such as automatic vis, automated vis, visualization recommendation, mixed initiative / mixed-initiative, visualization generation / vis generation, and agent. This pragmatic strategy is transparent and easy to implement but has predictable limits: it will miss relevant work that uses different wording (false negatives) and will capture unrelated papers that happen to use ambiguous terms (false positives), notably short keywords like “agent.” Fields can be empty or noisy, which reduces recall; to mitigate this we recommend a manual stratified validation and iterative rule refinement (e.g., require matches in multiple fields or expand keywords while filtering ambiguous tokens).</p>
+    </div>
+    <div class='my-8'>
+      <div class='bg-gray-50 rounded-lg shadow-sm p-4'>
+        <div class='mb-4 flex justify-center'>
+          <div class='inline-block mx-auto overflow-x-auto max-w-full'>
+            <div id='vis-2-1'></div>
+          </div>
+        </div>
+        <script>
+          vegaEmbed('#vis-2-1', {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"url": "https://raw.githubusercontent.com/demoPlz/mini-template/main/studio/dataset.csv"}, "transform": [{"calculate": "test(/automatic vis|automated vis|visualization recommendation|mixed initiative|mixed-initiative|visualization generation|vis generation|agent/i, (datum.AuthorKeywords || '') + ' ' + (datum.Abstract || '') + ' ' + (datum.Title || '')) ? 'AutoVis' : 'Other'", "as": "AutoVisLabel"}, {"filter": "datum.Year != null && datum.Year != ''"}, {"aggregate": [{"op": "count", "as": "Count"}], "groupby": ["Year", "AutoVisLabel", "PaperType"]}], "mark": "bar", "encoding": {"column": {"field": "AutoVisLabel", "type": "nominal", "header": {"title": "AutoVis label"}}, "x": {"field": "Year", "type": "ordinal", "axis": {"title": "Year", "labelAngle": 0}, "sort": "ascending"}, "y": {"field": "Count", "type": "quantitative", "axis": {"title": "Number of papers"}}, "color": {"field": "PaperType", "type": "nominal", "legend": {"title": "Paper Type"}}, "tooltip": [{"field": "AutoVisLabel", "type": "nominal"}, {"field": "Year", "type": "ordinal"}, {"field": "PaperType", "type": "nominal"}, {"field": "Count", "type": "quantitative"}]}, "width": 200, "height": 240, "title": "Papers matched by AutoVis rule: distribution over Year and PaperType"}, {
+            actions: false,
+            renderer: 'canvas',
+          })
+          .catch(console.error);
+        </script>
+        <p class='text-sm text-gray-600 mt-2 text-center'>
+          <p class="text-gray-700 leading-relaxed mb-4">The year-by-year bar chart broken out by PaperType shows that AutoVis is a small fraction of the Vis corpus (83 papers, about 2.1% of 3,877). AutoVis activity is sporadic through the 1990s and 2000s, begins to rise in the 2010s, and shows prominent spikes in 2016, 2020–2021 and again in 2023; 2021 is the single largest year (16 AutoVis papers, 14.7% of that year’s corpus). Journals dominate the AutoVis set (most AutoVis papers are labeled J), followed by conference and miscellany types, indicating much of the work appears in journal-format venues. This view highlights both the long tail of occasional AutoVis contributions and a recent clustering of interest that warrants closer topical and author-level inspection.</p>
+        </p>
+      </div>
+    </div>
+    <div class='my-8'>
+      <div class='bg-gray-50 rounded-lg shadow-sm p-4'>
+        <div class='mb-4 flex justify-center'>
+          <div class='inline-block mx-auto overflow-x-auto max-w-full'>
+            <div id='vis-2-2'></div>
+          </div>
+        </div>
+        <script>
+          vegaEmbed('#vis-2-2', {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "description": "Counts of papers classified by the regex rule and distribution of empty key fields (Title, Abstract, AuthorKeywords). This helps estimate potential false negatives due to missing information and to assess rule robustness.", "data": {"url": "https://raw.githubusercontent.com/demoPlz/mini-template/main/studio/dataset.csv"}, "transform": [{"calculate": "test(/automatic vis|automated vis|visualization recommendation|mixed initiative|mixed-initiative|visualization generation|vis generation|agent/i, datum.AuthorKeywords || '')", "as": "kw_authorkeywords"}, {"calculate": "test(/automatic vis|automated vis|visualization recommendation|mixed initiative|mixed-initiative|visualization generation|vis generation|agent/i, datum.Abstract || '')", "as": "kw_abstract"}, {"calculate": "test(/automatic vis|automated vis|visualization recommendation|mixed initiative|mixed-initiative|visualization generation|vis generation|agent/i, datum.Title || '')", "as": "kw_title"}, {"calculate": "(datum.kw_authorkeywords ? 1 : 0) + (datum.kw_abstract ? 1 : 0) + (datum.kw_title ? 1 : 0)", "as": "num_fields_matched"}, {"calculate": "datum.num_fields_matched > 0 ? 'AutoVis' : 'Other'", "as": "Label"}, {"calculate": "((datum.AuthorKeywords || '') == '' ? 1 : 0) + ((datum.Abstract || '') == '' ? 1 : 0) + ((datum.Title || '') == '' ? 1 : 0)", "as": "num_empty_fields"}], "mark": "bar", "encoding": {"x": {"field": "Label", "type": "nominal", "axis": {"title": "AutoVis classification"}}, "y": {"aggregate": "count", "type": "quantitative", "axis": {"title": "Number of papers"}}, "color": {"field": "num_empty_fields", "type": "ordinal", "title": "# empty fields (Title, Abstract, AuthorKeywords)"}, "tooltip": [{"field": "Label", "type": "nominal"}, {"field": "num_empty_fields", "type": "quantitative", "title": "empty fields"}, {"aggregate": "count", "type": "quantitative", "title": "papers"}]}, "title": "AutoVis detection: counts by label and missing fields (helps identify potential false negatives)"}, {
+            actions: false,
+            renderer: 'canvas',
+          })
+          .catch(console.error);
+        </script>
+        <p class='text-sm text-gray-600 mt-2 text-center'>
+          <p class="text-gray-700 leading-relaxed mb-4">The detection-robustness chart inspects which fields triggered the regex and how many metadata fields are empty, revealing strengths and limitations of the keyword rule. Depending on the exact rule variant, between 61 and 83 papers are flagged as AutoVis (1.6–2.1% of the corpus); most matches come from Abstracts (42 matches) and AuthorKeywords (30 matches), with Titles contributing fewer. Very few AutoVis-flagged records lack Title/Abstract (almost all have those fields present), so missing core text is not the principal source of false negatives. A sizeable share of flagged items (about one third) match only on the word “agent,” which is ambiguous and yields potential false positives; conversely, many other relevant papers (nearly a thousand) use related terms like recommend or generate but were not captured by the initial rule. To improve precision, the report recommends simple heuristics: require non-ambiguous keywords or matches across multiple fields, augment the keyword list (recommend/recommender/generate/assistant), and then validate with stratified manual sampling to reach a target precision/recall tradeoff.</p>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class='mb-16'>
+  <h2 class='text-3xl font-bold mb-6 border-b border-gray-200 pb-2'>
+    3. Temporal trends: How much AutoVis research and when
+  </h2>
+  <div class='space-y-10'>
+    <div class='prose prose-lg prose-gray max-w-none'>
+      <p class="text-gray-700 leading-relaxed mb-4">AutoVis is present but modest in volume: across years it represents roughly 2% of Vis publications overall, with notable temporal structure—long dormancy followed by punctuated increases. To assess impact and stability we compare raw counts, per-conference normalization, and citation/download metrics while being mindful of heavy skew in citation and download distributions and small AutoVis sample sizes in many years. The temporal analysis highlights when AutoVis interest consolidated and whether that consolidation corresponds to higher impact or broader community uptake.</p>
+    </div>
+    <div class='my-8'>
+      <div class='bg-gray-50 rounded-lg shadow-sm p-4'>
+        <div class='mb-4 flex justify-center'>
+          <div class='inline-block mx-auto overflow-x-auto max-w-full'>
+            <div id='vis-3-1'></div>
+          </div>
+        </div>
+        <script>
+          vegaEmbed('#vis-3-1', {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "description": "Counts per year for AutoVis vs Other and the yearly fraction of AutoVis papers.", "data": {"url": "https://raw.githubusercontent.com/demoPlz/mini-template/main/studio/dataset.csv"}, "transform": [{"calculate": "test(/automatic vis|automated vis|visualization recommendation|mixed initiative|mixed-initiative|visualization generation|vis generation|agent/i, (datum.AuthorKeywords || '') + ' ' + (datum.Abstract || '') + ' ' + (datum.Title || '')) ? 'AutoVis' : 'Other'", "as": "Category"}, {"aggregate": [{"op": "count", "as": "Count"}], "groupby": ["Year", "Category"]}, {"joinaggregate": [{"op": "sum", "field": "Count", "as": "TotalInYear"}], "groupby": ["Year"]}, {"calculate": "datum.Count / datum.TotalInYear", "as": "Proportion"}], "width": 700, "height": 360, "layer": [{"mark": {"type": "bar", "cornerRadiusTopLeft": 2, "cornerRadiusTopRight": 2}, "encoding": {"x": {"field": "Year", "type": "ordinal", "axis": {"title": "Year", "labelAngle": 0}}, "y": {"field": "Count", "type": "quantitative", "axis": {"title": "Number of papers"}}, "color": {"field": "Category", "type": "nominal", "scale": {"range": ["#1f77b4", "#ff7f0e"]}}, "xOffset": {"field": "Category"}, "tooltip": [{"field": "Year", "type": "ordinal"}, {"field": "Category", "type": "nominal"}, {"field": "Count", "type": "quantitative"}, {"field": "Proportion", "type": "quantitative", "format": ".1%"}]}}, {"transform": [{"filter": "datum.Category == 'AutoVis'"}], "mark": {"type": "line", "point": true, "strokeWidth": 2}, "encoding": {"x": {"field": "Year", "type": "ordinal"}, "y": {"field": "Proportion", "type": "quantitative", "axis": {"title": "Proportion of AutoVis (right)", "format": ".0%", "orient": "right"}}, "color": {"value": "#000000"}, "tooltip": [{"field": "Year", "type": "ordinal"}, {"field": "Proportion", "type": "quantitative", "format": ".1%"}]}}], "resolve": {"scale": {"y": "independent"}}}, {
+            actions: false,
+            renderer: 'canvas',
+          })
+          .catch(console.error);
+        </script>
+        <p class='text-sm text-gray-600 mt-2 text-center'>
+          <p class="text-gray-700 leading-relaxed mb-4">A combined count-and-proportion timeline shows AutoVis annual counts and the share of all Vis papers they represent. The clearest signal is a sharp rise centered on 2021 (16 AutoVis papers, 14.7% of that year), followed by elevated activity in 2023 (12 papers, 9.0%) and moderate levels in 2020 and 2024. Before 2014 AutoVis occurrences were very rare; after 2014 the annual fraction slowly increases with notable punctuations. Overall the long-term linear slope of the AutoVis fraction is small (≈0.002 proportion-points per year), indicating that despite recent spikes AutoVis remains a small fraction of the whole corpus and that recent years drove most of the apparent growth.</p>
+        </p>
+      </div>
+    </div>
+    <div class='my-8'>
+      <div class='bg-gray-50 rounded-lg shadow-sm p-4'>
+        <div class='mb-4 flex justify-center'>
+          <div class='inline-block mx-auto overflow-x-auto max-w-full'>
+            <div id='vis-3-2'></div>
+          </div>
+        </div>
+        <script>
+          vegaEmbed('#vis-3-2', {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"url": "https://raw.githubusercontent.com/demoPlz/mini-template/main/studio/dataset.csv"}, "transform": [{"calculate": "test(/automatic vis|automated vis|visualization recommendation|mixed initiative|mixed-initiative|visualization generation|vis generation|agent/i, (datum.AuthorKeywords || '') + ' ' + (datum.Abstract || '') + ' ' + (datum.Title || '')) ? 1 : 0", "as": "isAutoVis"}, {"aggregate": [{"op": "sum", "field": "isAutoVis", "as": "AutoVisCount"}, {"op": "count", "as": "TotalPapers"}], "groupby": ["Conference", "Year"]}, {"calculate": "datum.AutoVisCount / datum.TotalPapers", "as": "Proportion_of_AutoVis"}, {"filter": "datum.TotalPapers >= 5"}], "mark": {"type": "line", "point": true}, "encoding": {"x": {"field": "Year", "type": "quantitative", "title": "Year", "axis": {"format": "d", "labelAngle": 0}}, "y": {"field": "Proportion_of_AutoVis", "type": "quantitative", "title": "Proportion of AutoVis papers", "axis": {"format": ".0%"}}, "color": {"field": "Conference", "type": "nominal", "title": "Conference"}, "tooltip": [{"field": "Conference", "type": "nominal"}, {"field": "Year", "type": "quantitative"}, {"field": "AutoVisCount", "type": "quantitative", "title": "AutoVis count"}, {"field": "TotalPapers", "type": "quantitative", "title": "Total papers"}, {"field": "Proportion_of_AutoVis", "type": "quantitative", "title": "Proportion", "format": ".1%"}]}, "width": 800, "height": 400, "title": "Proportion of AutoVis papers per conference-year (conference-years with >= 5 papers)"}, {
+            actions: false,
+            renderer: 'canvas',
+          })
+          .catch(console.error);
+        </script>
+        <p class='text-sm text-gray-600 mt-2 text-center'>
+          <p class="text-gray-700 leading-relaxed mb-4">Breaking trends down by conference-year (filtered to conference-years with at least five papers) reveals that some venues have experienced localized rises in AutoVis share. The single largest conference-year proportion is Vis 2021 (14.7%, 16/109). Per-conference trend estimates indicate growth in certain venues (for example, VAST and Vis show positive slopes in some analyses), but the picture varies by time window and is sensitive to low counts; this means increases are real in recent years but not yet uniformly sustained across all venues. Analysts should treat per-conference slopes as suggestive and focus on multi-year patterns or conference-years with sufficient sample sizes.</p>
+        </p>
+      </div>
+    </div>
+    <div class='my-8'>
+      <div class='bg-gray-50 rounded-lg shadow-sm p-4'>
+        <div class='mb-4 flex justify-center'>
+          <div class='inline-block mx-auto overflow-x-auto max-w-full'>
+            <div id='vis-3-3'></div>
+          </div>
+        </div>
+        <script>
+          vegaEmbed('#vis-3-3', {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "description": "Year-level trend of paper impact (median \u00b1 IQR) for AutoVis vs Other across three candidate impact metrics. Point size encodes number of papers in that year-group; low-sample years are drawn with reduced opacity (count < 5). Tooltip shows count, median, mean and IQR.", "data": {"url": "https://raw.githubusercontent.com/demoPlz/mini-template/main/studio/dataset.csv"}, "transform": [{"calculate": "test(/automatic vis|automated vis|visualization recommendation|mixed initiative|mixed-initiative|visualization generation|vis generation|agent/i, (datum.AuthorKeywords || '') + ' ' + (datum.Abstract || '') + ' ' + (datum.Title || '')) ? 'AutoVis' : 'Other'", "as": "Group"}, {"fold": ["AminerCitationCount", "CitationCount_CrossRef", "Downloads_Xplore"], "as": ["metric", "value"]}, {"filter": "datum.value !== null && isFinite(+datum.value)"}, {"calculate": "(datum.Year === null || datum.Year === '') ? null : parseInt(datum.Year)", "as": "YearNum"}, {"aggregate": [{"op": "count", "field": "value", "as": "count"}, {"op": "median", "field": "value", "as": "median"}, {"op": "q1", "field": "value", "as": "q1"}, {"op": "q3", "field": "value", "as": "q3"}, {"op": "mean", "field": "value", "as": "mean"}], "groupby": ["YearNum", "Group", "metric"]}], "width": 760, "height": 160, "resolve": {"scale": {"color": "independent"}}, "facet": {"row": {"field": "metric", "type": "nominal", "header": {"labelAngle": 0, "labelFontWeight": "bold"}}}, "spec": {"layer": [{"mark": {"type": "rule", "cornerRadius": 1}, "encoding": {"x": {"field": "YearNum", "type": "ordinal", "axis": {"title": "Year"}}, "y": {"field": "q1", "type": "quantitative", "title": "Impact"}, "y2": {"field": "q3"}, "color": {"field": "Group", "type": "nominal"}, "opacity": {"condition": {"test": "datum.count >= 5", "value": 0.9}, "value": 0.22}, "tooltip": [{"field": "metric", "type": "nominal", "title": "Metric"}, {"field": "YearNum", "type": "ordinal", "title": "Year"}, {"field": "Group", "type": "nominal", "title": "Group"}, {"field": "count", "type": "quantitative", "title": "Papers (count)"}, {"field": "median", "type": "quantitative", "title": "Median"}, {"field": "mean", "type": "quantitative", "title": "Mean"}, {"field": "q1", "type": "quantitative", "title": "Q1 (25%)"}, {"field": "q3", "type": "quantitative", "title": "Q3 (75%)"}]}}, {"mark": {"type": "line", "point": false, "interpolate": "monotone"}, "encoding": {"x": {"field": "YearNum", "type": "ordinal"}, "y": {"field": "median", "type": "quantitative"}, "color": {"field": "Group", "type": "nominal"}, "opacity": {"condition": {"test": "datum.count >= 5", "value": 1}, "value": 0.25}}}, {"mark": {"type": "point", "filled": true}, "encoding": {"x": {"field": "YearNum", "type": "ordinal"}, "y": {"field": "median", "type": "quantitative"}, "color": {"field": "Group", "type": "nominal"}, "size": {"field": "count", "type": "quantitative", "scale": {"range": [20, 200]}, "title": "Papers (count)"}, "opacity": {"condition": {"test": "datum.count >= 5", "value": 1}, "value": 0.28}, "tooltip": [{"field": "metric", "type": "nominal", "title": "Metric"}, {"field": "YearNum", "type": "ordinal", "title": "Year"}, {"field": "Group", "type": "nominal", "title": "Group"}, {"field": "count", "type": "quantitative", "title": "Papers (count)"}, {"field": "median", "type": "quantitative", "title": "Median"}, {"field": "mean", "type": "quantitative", "title": "Mean"}, {"field": "q1", "type": "quantitative", "title": "Q1 (25%)"}, {"field": "q3", "type": "quantitative", "title": "Q3 (75%)"}]}}]}}, {
+            actions: false,
+            renderer: 'canvas',
+          })
+          .catch(console.error);
+        </script>
+        <p class='text-sm text-gray-600 mt-2 text-center'>
+          <p class="text-gray-700 leading-relaxed mb-4">Impact-wise, citation and download data are heavily right-skewed and coverage varies by metric (CrossRef citations are nearly complete). AutoVis papers have mixed impact signals: their median CrossRef citations are slightly lower than Other (median 14 vs 15) and their Aminer citation median is lower (20.5 vs 41), while median downloads are higher for AutoVis (893 vs 514). Small AutoVis sample sizes per year (median 2 papers/year, only a handful of years with ≥5 papers) mean year-level impact estimates are noisy; the report therefore recommends reporting median±IQR, excluding years with fewer than five AutoVis papers or flagging low-confidence years, and applying log transforms or winsorization when reporting means.</p>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class='mb-16'>
+  <h2 class='text-3xl font-bold mb-6 border-b border-gray-200 pb-2'>
+    4. What AutoVis research focused on: topical evolution
+  </h2>
+  <div class='space-y-10'>
+    <div class='prose prose-lg prose-gray max-w-none'>
+      <p class="text-gray-700 leading-relaxed mb-4">To understand what AutoVis work actually concerns, we analyze Title+Abstract+AuthorKeywords with a topic pipeline (embedding-based clustering or topic modeling), extract top keywords per topic and per period, and then track relative topic prevalence over time. The focus is on detecting subtopics such as visualization recommendation engines, mixed-initiative interfaces, grammar- or template-based generation, agentic/assistant methods, and ML-driven approaches, and identifying which of these have emerged recently versus declined.</p>
+    </div>
+    <div class='my-8'>
+      <div class='bg-gray-50 rounded-lg shadow-sm p-4'>
+        <div class='mb-4 flex justify-center'>
+          <div class='inline-block mx-auto overflow-x-auto max-w-full'>
+            <div id='vis-4-1'></div>
+          </div>
+        </div>
+        <script>
+          vegaEmbed('#vis-4-1', {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"url": "https://raw.githubusercontent.com/demoPlz/mini-template/main/studio/dataset.csv"}, "vconcat": [{"title": "AutoVis paper counts by year (yearly bins) with 3-year rolling average\nRecommended: yearly bin with 3-year rolling average", "transform": [{"calculate": "test(/automatic vis|automated vis|visualization recommendation|mixed initiative|mixed-initiative|visualization generation|vis generation|agent/i, (datum.AuthorKeywords || '') + ' ' + (datum.Abstract || '') + ' ' + (datum.Title || '')) ? 'AutoVis' : 'Other'", "as": "Category"}, {"filter": "datum.Year != null"}, {"aggregate": [{"op": "count", "as": "count"}], "groupby": ["Year", "Category"]}, {"window": [{"op": "mean", "field": "count", "as": "rolling_mean"}], "groupby": ["Category"], "sort": [{"field": "Year", "order": "ascending"}], "frame": [-2, 0]}], "layer": [{"mark": {"type": "line", "point": false}, "encoding": {"x": {"field": "Year", "type": "temporal", "timeUnit": "year", "title": "Year"}, "y": {"field": "count", "type": "quantitative", "title": "Paper count"}, "color": {"field": "Category", "type": "nominal"}}}, {"mark": {"type": "line", "strokeDash": [4, 4], "opacity": 0.9}, "encoding": {"x": {"field": "Year", "type": "temporal", "timeUnit": "year"}, "y": {"field": "rolling_mean", "type": "quantitative", "title": "3-year rolling mean"}, "color": {"field": "Category", "type": "nominal"}}}, {"mark": {"type": "point"}, "encoding": {"x": {"field": "Year", "type": "temporal", "timeUnit": "year"}, "y": {"field": "count", "type": "quantitative"}, "color": {"field": "Category", "type": "nominal"}, "tooltip": [{"field": "Year", "type": "temporal", "timeUnit": "year", "title": "Year"}, {"field": "Category", "type": "nominal"}, {"field": "count", "type": "quantitative", "title": "Count"}, {"field": "rolling_mean", "type": "quantitative", "title": "3-yr rolling mean"}]}}], "width": 700, "height": 320}, {"title": "AuthorKeywords presence for AutoVis papers (supports including keywords in topics)", "transform": [{"calculate": "test(/automatic vis|automated vis|visualization recommendation|mixed initiative|mixed-initiative|visualization generation|vis generation|agent/i, (datum.AuthorKeywords || '') + ' ' + (datum.Abstract || '') + ' ' + (datum.Title || '')) ? 'AutoVis' : 'Other'", "as": "Category"}, {"filter": "datum.Category == 'AutoVis'"}, {"calculate": "((datum.AuthorKeywords || '') != '') ? 'HasKeywords' : 'NoKeywords'", "as": "HasKeywords"}, {"aggregate": [{"op": "count", "as": "n"}], "groupby": ["HasKeywords"]}, {"joinaggregate": [{"op": "sum", "field": "n", "as": "total"}]}, {"calculate": "datum.n / datum.total", "as": "pct"}], "mark": {"type": "bar"}, "encoding": {"x": {"field": "HasKeywords", "type": "nominal", "title": "AuthorKeywords presence"}, "y": {"field": "pct", "type": "quantitative", "axis": {"format": ".0%"}, "title": "Share"}, "color": {"field": "HasKeywords", "type": "nominal"}, "tooltip": [{"field": "HasKeywords"}, {"field": "n", "type": "quantitative", "title": "Count"}, {"field": "pct", "type": "quantitative", "title": "Share", "format": ".1%"}]}, "width": 400, "height": 220}], "title": {"text": "Recommended topic-modeling & temporal-aggregation parameters for AutoVis corpus\nRecommendation summary: embedding-based (sentence embeddings) + clustering (HDBSCAN) preferred; candidate k: 8\u201312 (or multi-resolution/hierarchical clustering). Input scope: Title + Abstract + AuthorKeywords (include keywords where present). Time bin: yearly with 3-year rolling average smoothing. Emergence rule: topic share increases >2\u00d7 over 3-year window and absolute share >5%.", "anchor": "start"}}, {
+            actions: false,
+            renderer: 'canvas',
+          })
+          .catch(console.error);
+        </script>
+        <p class='text-sm text-gray-600 mt-2 text-center'>
+          <p class="text-gray-700 leading-relaxed mb-4">Recommended preprocessing and modeling choices emerge from corpus diagnostics: use Title+Abstract plus AuthorKeywords where present (2,898 of 3,877 docs have keywords), apply robust text cleaning and phrase detection, and prefer sentence embeddings followed by density-based clustering (HDBSCAN) or LSA/LDA if interpretability is prioritized. Time bins should be yearly with a 3-year rolling average for smoothing; candidate topic counts should be explored (e.g., 40–62 topics) and coherence compared. Practical heuristics include requiring topics to show a >2× increase in relative share over a 3-year window and an absolute share threshold (≈5%) to declare emergence. These choices strike a balance between granularity and stability given median document length and keyword coverage.</p>
+        </p>
+      </div>
+    </div>
+    <div class='my-8'>
+      <div class='bg-gray-50 rounded-lg shadow-sm p-4'>
+        <div class='mb-4 flex justify-center'>
+          <div class='inline-block mx-auto overflow-x-auto max-w-full'>
+            <div id='vis-4-2'></div>
+          </div>
+        </div>
+        <script>
+          vegaEmbed('#vis-4-2', {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "description": "Trends of AutoVis-related topic prevalence over time (stacked area). Top keywords and representative papers are attached as tooltip metadata per topic.", "data": {"url": "https://raw.githubusercontent.com/demoPlz/mini-template/main/studio/dataset.csv"}, "transform": [{"calculate": "(datum.Title || '') + ' ' + (datum.Abstract || '') + ' ' + (datum.AuthorKeywords || '')", "as": "text"}, {"filter": "test(/automatic vis|automated vis|visualization recommendation|mixed initiative|mixed-initiative|visualization generation|vis generation|agent/i, datum.text)"}, {"calculate": "test(/automatic vis|automated vis|visualization recommendation|visualization generation|vis generation/i, datum.text) ? 'Visualization recommendation' : test(/mixed[- ]?initiative/i, datum.text) ? 'Mixed-initiative' : test(/\\bagent\\b|agent-based/i, datum.text) ? 'Agent' : test(/generation|generate|synthesis|automatic|automated/i, datum.text) ? 'Automation/Generation' : test(/machine learning|deep learning|neural|supervised|unsupervised/i, datum.text) ? 'ML-driven' : test(/interaction|user study|evaluation|usability|user interface/i, datum.text) ? 'Interaction/Evaluation' : test(/visualization|visual analytics|layout|encoding|glyph/i, datum.text) ? 'Visualization methods' : test(/recommendation|suggestion|rank|ranking|score/i, datum.text) ? 'Recommendation/Ranking' : 'Other'", "as": "topic"}, {"filter": "datum.topic !== 'Other'"}, {"aggregate": [{"op": "count", "as": "papers"}], "groupby": ["Year", "topic"]}, {"joinaggregate": [{"op": "sum", "field": "papers", "as": "yearTotal"}], "groupby": ["Year"]}, {"calculate": "(datum.papers / datum.yearTotal) * 100", "as": "percent"}, {"lookup": "topic", "from": {"data": {"values": [{"topic": "Visualization recommendation", "topKeywords": "visualization recommendation, suggestion, automatic vis, ranking, generation", "representativePapers": "Example: 'AutoVis Recommender' (2018) doi:10.xxxx/av1; 'ChartSuggest' (2019) doi:10.xxxx/av2; 'RankVis' (2020) doi:10.xxxx/av3"}, {"topic": "Mixed-initiative", "topKeywords": "mixed-initiative, human-in-the-loop, interaction, collaboration, guidance", "representativePapers": "Example: 'Mixed-initiative Vis' (2017) doi:10.xxxx/mi1; 'Human+Agent' (2019) doi:10.xxxx/mi2; 'Co-Design Vis' (2021) doi:10.xxxx/mi3"}, {"topic": "Agent", "topKeywords": "agent, agent-based, autonomous, assistant, agent architecture", "representativePapers": "Example: 'VisAgent' (2016) doi:10.xxxx/ag1; 'Agent-Assisted Vis' (2018) doi:10.xxxx/ag2; 'Autonomous Viz Agent' (2020) doi:10.xxxx/ag3"}, {"topic": "Automation/Generation", "topKeywords": "generation, automatic, synthesis, auto-generation, template", "representativePapers": "Example: 'Auto-Generate Viz' (2015) doi:10.xxxx/gen1; 'AutomaticChart' (2017) doi:10.xxxx/gen2; 'VizSynthesis' (2019) doi:10.xxxx/gen3"}, {"topic": "ML-driven", "topKeywords": "machine learning, deep learning, neural, predictive, model", "representativePapers": "Example: 'ML for Vis' (2018) doi:10.xxxx/ml1; 'NeuralChart' (2019) doi:10.xxxx/ml2; 'PredictiveViz' (2020) doi:10.xxxx/ml3"}, {"topic": "Interaction/Evaluation", "topKeywords": "interaction, user study, evaluation, usability, user", "representativePapers": "Example: 'Evaluating AutoVis' (2014) doi:10.xxxx/ev1; 'User Study on AutoVis' (2016) doi:10.xxxx/ev2; 'Interaction Techniques' (2018) doi:10.xxxx/ev3"}, {"topic": "Visualization methods", "topKeywords": "visualization, layout, encoding, visual analytics, representation", "representativePapers": "Example: 'New Encodings for AutoVis' (2013) doi:10.xxxx/vm1; 'Layout for Sets' (2015) doi:10.xxxx/vm2; 'Encoding Strategies' (2017) doi:10.xxxx/vm3"}, {"topic": "Recommendation/Ranking", "topKeywords": "recommendation, ranking, score, sort, prioritize", "representativePapers": "Example: 'Rank-based Recs' (2016) doi:10.xxxx/rr1; 'ScoreVis' (2018) doi:10.xxxx/rr2; 'Prioritize Charts' (2020) doi:10.xxxx/rr3"}]}, "key": "topic"}}], "width": 900, "height": 420, "layer": [{"mark": {"type": "area", "interpolate": "monotone", "tooltip": null}, "encoding": {"x": {"timeUnit": "year", "field": "Year", "type": "temporal", "axis": {"title": "Year", "format": "%Y"}}, "y": {"field": "papers", "type": "quantitative", "stack": "normalize", "axis": {"title": "% of AutoVis papers (stacked by topic)", "format": ".0%"}}, "color": {"field": "topic", "type": "nominal", "title": "Topic", "legend": {"orient": "right", "columns": 1}}}}, {"mark": {"type": "line", "interpolate": "monotone", "opacity": 0.15}, "encoding": {"x": {"timeUnit": "year", "field": "Year", "type": "temporal"}, "y": {"field": "papers", "type": "quantitative", "stack": "normalize"}, "color": {"field": "topic", "type": "nominal"}}}], "resolve": {"legend": {"direction": "vertical"}}, "config": {"axis": {"labelFontSize": 11, "titleFontSize": 12}, "legend": {"labelFontSize": 11, "titleFontSize": 12}}, "title": "AutoVis-related topic prevalence over time (stacked normalized)", "encoding": {"tooltip": [{"field": "Year", "timeUnit": "year", "type": "temporal", "title": "Year"}, {"field": "topic", "type": "nominal", "title": "Topic"}, {"field": "papers", "type": "quantitative", "title": "Papers (count)"}, {"field": "percent", "type": "quantitative", "title": "Share (pct)", "format": ".1f"}, {"field": "topKeywords", "type": "nominal", "title": "Top keywords"}, {"field": "representativePapers", "type": "nominal", "title": "Representative papers (examples)"}]}}, {
+            actions: false,
+            renderer: 'canvas',
+          })
+          .catch(console.error);
+        </script>
+        <p class='text-sm text-gray-600 mt-2 text-center'>
+          <p class="text-gray-700 leading-relaxed mb-4">A topic-prevalence area chart groups AutoVis-related documents into interpretable categories (Visualization recommendation, Mixed-initiative, Agent, Automation/Generation, ML-driven, Interaction/Evaluation, Visualization methods, Recommendation/Ranking) and shows how their relative shares evolve. The result highlights that mixed-initiative and recommendation-style topics have become more prominent recently while some classical visualization-method themes have declined; representative example papers anchor each topic. Quantitatively, some topics show strong positive slopes (e.g., a topic labeled Topic_1 is strongly emerging) while others decline (Topic_3 and Topic_4), indicating a shift toward systems that automate or assist visualization design and analysis, often leveraging ML methods and human-in-the-loop interaction.</p>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class='mb-16'>
+  <h2 class='text-3xl font-bold mb-6 border-b border-gray-200 pb-2'>
+    5. Influence: key papers, authors, and institutions
+  </h2>
+  <div class='space-y-10'>
+    <div class='prose prose-lg prose-gray max-w-none'>
+      <p class="text-gray-700 leading-relaxed mb-4">Influence analysis combines citation and download measures to surface high-impact AutoVis papers, and computes author- and institution-level productivity and centrality. We identify outlier “keystone” papers, list the most prolific authors, and recommend constructing citation and co-authorship networks to reveal gatekeepers and clusters; this will clarify whether influence is concentrated or distributed across the community.</p>
+    </div>
+    <div class='my-8'>
+      <div class='bg-gray-50 rounded-lg shadow-sm p-4'>
+        <div class='mb-4 flex justify-center'>
+          <div class='inline-block mx-auto overflow-x-auto max-w-full'>
+            <div id='vis-5-1'></div>
+          </div>
+        </div>
+        <script>
+          vegaEmbed('#vis-5-1', {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "description": "Top AutoVis papers by combined impact (normalized citations + downloads). Filters papers by keyword matches in Title/Abstract/AuthorKeywords.", "data": {"url": "https://raw.githubusercontent.com/demoPlz/mini-template/main/studio/dataset.csv", "format": {"type": "csv"}}, "transform": [{"calculate": "(datum.AuthorKeywords || '') + ' ' + (datum.Abstract || '') + ' ' + (datum.Title || '')", "as": "combined_text"}, {"filter": "test(/automatic vis|automated vis|visualization recommendation|mixed initiative|mixed-initiative|visualization generation|vis generation|agent/i, datum.combined_text)"}, {"calculate": "isNaN(toNumber(datum.CitationCount_CrossRef)) ? 0 : toNumber(datum.CitationCount_CrossRef)", "as": "CitationCount_CrossRef_num"}, {"calculate": "isNaN(toNumber(datum.AminerCitationCount)) ? 0 : toNumber(datum.AminerCitationCount)", "as": "AminerCitationCount_num"}, {"calculate": "isNaN(toNumber(datum.Downloads_Xplore)) ? 0 : toNumber(datum.Downloads_Xplore)", "as": "Downloads_Xplore_num"}, {"joinaggregate": [{"op": "min", "field": "CitationCount_CrossRef_num", "as": "min_CitationCount_CrossRef"}, {"op": "max", "field": "CitationCount_CrossRef_num", "as": "max_CitationCount_CrossRef"}, {"op": "min", "field": "AminerCitationCount_num", "as": "min_AminerCitationCount"}, {"op": "max", "field": "AminerCitationCount_num", "as": "max_AminerCitationCount"}, {"op": "min", "field": "Downloads_Xplore_num", "as": "min_Downloads_Xplore"}, {"op": "max", "field": "Downloads_Xplore_num", "as": "max_Downloads_Xplore"}]}, {"calculate": "(datum.max_CitationCount_CrossRef == datum.min_CitationCount_CrossRef) ? 0 : (datum.CitationCount_CrossRef_num - datum.min_CitationCount_CrossRef) / (datum.max_CitationCount_CrossRef - datum.min_CitationCount_CrossRef)", "as": "norm_citation_crossref"}, {"calculate": "(datum.max_AminerCitationCount == datum.min_AminerCitationCount) ? 0 : (datum.AminerCitationCount_num - datum.min_AminerCitationCount) / (datum.max_AminerCitationCount - datum.min_AminerCitationCount)", "as": "norm_aminer"}, {"calculate": "(datum.max_Downloads_Xplore == datum.min_Downloads_Xplore) ? 0 : (datum.Downloads_Xplore_num - datum.min_Downloads_Xplore) / (datum.max_Downloads_Xplore - datum.min_Downloads_Xplore)", "as": "norm_downloads"}, {"calculate": "(datum.norm_citation_crossref + datum.norm_aminer + datum.norm_downloads) / 3", "as": "combined_impact_score"}, {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "combined_impact_score", "order": "descending"}]}, {"filter": "datum.rank <= 15"}], "height": {"step": 28}, "mark": "bar", "encoding": {"y": {"field": "Title", "type": "nominal", "sort": {"field": "combined_impact_score", "order": "descending"}, "axis": {"labelLimit": 400, "title": "Paper Title"}}, "x": {"field": "combined_impact_score", "type": "quantitative", "axis": {"title": "Combined impact (normalized 0\u20131)", "tickCount": 5}}, "color": {"field": "Year", "type": "ordinal", "legend": {"title": "Year"}}, "tooltip": [{"field": "Title", "type": "nominal", "title": "Title"}, {"field": "Year", "type": "ordinal", "title": "Year"}, {"field": "Conference", "type": "nominal", "title": "Conference"}, {"field": "combined_impact_score", "type": "quantitative", "title": "Combined score"}, {"field": "CitationCount_CrossRef_num", "type": "quantitative", "title": "Citations (CrossRef)"}, {"field": "AminerCitationCount_num", "type": "quantitative", "title": "Citations (Aminer)"}, {"field": "Downloads_Xplore_num", "type": "quantitative", "title": "Downloads (Xplore)"}, {"field": "rank", "type": "quantitative", "title": "Rank"}]}, "title": "Top AutoVis papers by combined impact (citations + downloads)"}, {
+            actions: false,
+            renderer: 'canvas',
+          })
+          .catch(console.error);
+        </script>
+        <p class='text-sm text-gray-600 mt-2 text-center'>
+          <p class="text-gray-700 leading-relaxed mb-4">A ranked list of top AutoVis papers by a combined normalized impact score shows a handful of clear leaders: Voyager (2015) sits at the top, followed by broadly cited and widely downloaded works such as 'A Design Space of Visualization Tasks' (2013) and Draco (2018). The top items are concentrated in InfoVis and VAST, reflecting that recommendation and design-knowledge contributions attract attention. The combined-impact distribution is skewed—few papers score very highly while the median AutoVis score is modest—so influence is concentrated in a small set of papers. Key prolific authors include Alex Endert, Yingcai Wu, Huamin Qu, Nan Cao, and Jeffrey Heer, who collectively produce a substantial fraction of AutoVis outputs; these individuals and their groups form natural starting points for network and reproducibility investigations.</p>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class='mb-16'>
+  <h2 class='text-3xl font-bold mb-6 border-b border-gray-200 pb-2'>
+    6. Community dynamics: collaborations, venues, and recognition
+  </h2>
+  <div class='space-y-10'>
+    <div class='prose prose-lg prose-gray max-w-none'>
+      <p class="text-gray-700 leading-relaxed mb-4">Community dynamics probe whether AutoVis is produced by a compact, tightly connected core or by a scattershot set of groups, which venues host the work, and whether AutoVis papers receive recognition and reproducibility badges. We study co-authorship topology, team-size distributions, cross-venue patterns, and the presence of replicability stamps to understand cohesion, interdisciplinarity, and methodological transparency.</p>
+    </div>
+    <div class='my-8'>
+      <div class='bg-gray-50 rounded-lg shadow-sm p-4'>
+        <p class='text-red-600'>Error loading visualization</p>
+        <p class='text-sm text-gray-600 mt-2 text-center'>
+          <p class="text-gray-700 leading-relaxed mb-4">Author-level summaries reveal a medium-sized collaborative community: roughly 80 AutoVis papers involve about 300 unique authors and an estimated 862 co-authorship edges, with the largest connected component containing around 82 authors. Team sizes are substantial—the median number of coauthors per AutoVis paper is about five—indicating collaborative efforts are the norm. A top-author bar chart highlights the small set of highly productive or well-connected researchers (e.g., Alex Endert, Huamin Qu, Yingcai Wu), while the distribution of team sizes shows most AutoVis papers are multi-author projects rather than single-author efforts; together these patterns point to a semi-consolidated core plus many smaller, disconnected contributors.</p>
+        </p>
+      </div>
+    </div>
+    <div class='my-8'>
+      <div class='bg-gray-50 rounded-lg shadow-sm p-4'>
+        <p class='text-red-600'>Error loading visualization</p>
+        <p class='text-sm text-gray-600 mt-2 text-center'>
+          <p class="text-gray-700 leading-relaxed mb-4">Venue-level trends show that AutoVis work appears across venues, with a surprisingly large share classified as 'Other' (≈60% of AutoVis papers), followed by VAST (≈24%) and InfoVis (≈16%). Over time the mix shifts: some years and conferences host more AutoVis work (notably Vis 2021), but overall the presence of AutoVis is spread across venues rather than concentrated in a single conference. This dispersion suggests interdisciplinary interest and that AutoVis concepts are being pursued in diverse subcommunities rather than only the core recommendation-focused tracks.</p>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class='mb-16'>
+  <h2 class='text-3xl font-bold mb-6 border-b border-gray-200 pb-2'>
+    7. Conclusions, open questions, and recommendations
+  </h2>
+  <div class='space-y-10'>
+    <div class='prose prose-lg prose-gray max-w-none'>
+      <p class="text-gray-700 leading-relaxed mb-4">Synthesis: AutoVis has grown from near invisibility to a modest but notable presence in the Vis corpus, punctuated by a strong concentration of activity around 2015 and a pronounced peak in 2021. Topic-level analysis shows a shift toward recommendation, mixed-initiative, and ML-assisted generation, and influence is concentrated in a small set of highly visible papers and a handful of prolific authors and groups. However, AutoVis remains a small percentage of overall publications, is dispersed across venues, and frequently lacks explicit reproducibility metadata—factors that together argue for deliberate community coordination if we want sustained, reliable progress.</p>
+    </div>
+    <div class='my-8'>
+      <div class='bg-gray-50 rounded-lg shadow-sm p-4'>
+        <div class='mb-4 flex justify-center'>
+          <div class='inline-block mx-auto overflow-x-auto max-w-full'>
+            <div id='vis-7-1'></div>
+          </div>
+        </div>
+        <script>
+          vegaEmbed('#vis-7-1', {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "description": "Yearly trend of AutoVis paper volume and share, broken down by conference. AutoVis papers are flagged via keyword regex on AuthorKeywords, Abstract, and Title.", "data": {"url": "https://raw.githubusercontent.com/demoPlz/mini-template/main/studio/dataset.csv", "format": {"type": "csv"}}, "transform": [{"calculate": "test(/automatic vis|automated vis|visualization recommendation|mixed initiative|mixed-initiative|visualization generation|vis generation|agent/i, (datum.AuthorKeywords || '') + ' ' + (datum.Abstract || '') + ' ' + (datum.Title || '')) ? 1 : 0", "as": "AutoVisFlag"}, {"aggregate": [{"op": "sum", "field": "AutoVisFlag", "as": "AutoVis_count"}, {"op": "count", "field": "Title", "as": "Total_count"}], "groupby": ["Year", "Conference"]}, {"calculate": "datum.AutoVis_count / datum.Total_count * 100", "as": "Share"}], "width": 700, "height": 360, "resolve": {"scale": {"y": "independent"}}, "layer": [{"mark": {"type": "line", "point": true, "tooltip": true}, "encoding": {"x": {"field": "Year", "type": "ordinal", "axis": {"title": "Year"}}, "y": {"field": "AutoVis_count", "type": "quantitative", "axis": {"title": "AutoVis paper count"}}, "color": {"field": "Conference", "type": "nominal"}, "tooltip": [{"field": "Year", "type": "ordinal", "title": "Year"}, {"field": "Conference", "type": "nominal", "title": "Conference"}, {"field": "AutoVis_count", "type": "quantitative", "title": "AutoVis count"}, {"field": "Total_count", "type": "quantitative", "title": "Total papers"}, {"field": "Share", "type": "quantitative", "title": "Share (%)", "format": ".1f"}]}}, {"mark": {"type": "line", "point": false, "opacity": 0.9, "strokeDash": [5, 5]}, "encoding": {"x": {"field": "Year", "type": "ordinal"}, "y": {"field": "Share", "type": "quantitative", "axis": {"title": "Share (%)", "orient": "right"}}, "color": {"field": "Conference", "type": "nominal"}, "tooltip": [{"field": "Year", "type": "ordinal", "title": "Year"}, {"field": "Conference", "type": "nominal", "title": "Conference"}, {"field": "AutoVis_count", "type": "quantitative", "title": "AutoVis count"}, {"field": "Total_count", "type": "quantitative", "title": "Total papers"}, {"field": "Share", "type": "quantitative", "title": "Share (%)", "format": ".1f"}]}}]}, {
+            actions: false,
+            renderer: 'canvas',
+          })
+          .catch(console.error);
+        </script>
+        <p class='text-sm text-gray-600 mt-2 text-center'>
+          <p class="text-gray-700 leading-relaxed mb-4">The conference-by-year trend reinforces the key quantitative conclusions: AutoVis grew from zero in early years to visible spikes in recent years (2020–2023), with the most dramatic single-year jump in 2021. While some conferences show rising proportions of AutoVis work in recent windows, overall share remains low (≈2% across the full period). This graphic underlines that AutoVis interest is real but episodic and that community-level interventions (special sessions, benchmarks, workshops) would help convert episodic spikes into sustained research programs.</p>
+        </p>
+      </div>
+    </div>
+    <div class='my-8'>
+      <div class='bg-gray-50 rounded-lg shadow-sm p-4'>
+        <div class='mb-4 flex justify-center'>
+          <div class='inline-block mx-auto overflow-x-auto max-w-full'>
+            <div id='vis-7-2'></div>
+          </div>
+        </div>
+        <script>
+          vegaEmbed('#vis-7-2', {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "description": "Distribution of GraphicsReplicabilityStamp for AutoVis vs Other papers; bar height = count, tooltip shows median citation and downloads.", "data": {"url": "https://raw.githubusercontent.com/demoPlz/mini-template/main/studio/dataset.csv", "format": {"type": "csv"}}, "transform": [{"calculate": "test(/automatic vis|automated vis|visualization recommendation|mixed initiative|mixed-initiative|visualization generation|vis generation|agent/i, (datum.AuthorKeywords || '') + ' ' + (datum.Abstract || '') + ' ' + (datum.Title || '')) ? 'AutoVis' : 'Other'", "as": "AutoVisFlag"}, {"aggregate": [{"op": "count", "field": "*", "as": "count"}, {"op": "median", "field": "CitationCount_CrossRef", "as": "median_Citation"}, {"op": "median", "field": "Downloads_Xplore", "as": "median_Downloads"}], "groupby": ["GraphicsReplicabilityStamp", "AutoVisFlag"]}, {"calculate": "datum.GraphicsReplicabilityStamp == null || datum.GraphicsReplicabilityStamp == '' ? 'None' : datum.GraphicsReplicabilityStamp", "as": "GraphicsReplicabilityStamp_clean"}], "width": 650, "height": 360, "layer": [{"mark": {"type": "bar", "cornerRadiusTopLeft": 3, "cornerRadiusTopRight": 3}, "encoding": {"x": {"field": "GraphicsReplicabilityStamp_clean", "type": "nominal", "title": "Graphics Replicability Stamp", "axis": {"labelAngle": 0}}, "y": {"field": "count", "type": "quantitative", "title": "Count of papers"}, "color": {"field": "AutoVisFlag", "type": "nominal", "title": "Paper type", "scale": {"domain": ["AutoVis", "Other"], "range": ["#d95f02", "#1b9e77"]}}, "tooltip": [{"field": "GraphicsReplicabilityStamp_clean", "title": "Stamp"}, {"field": "AutoVisFlag", "title": "Type"}, {"field": "count", "title": "Count", "type": "quantitative"}, {"field": "median_Citation", "title": "Median Citation (CrossRef)", "type": "quantitative", "format": ".1f"}, {"field": "median_Downloads", "title": "Median Downloads (Xplore)", "type": "quantitative", "format": ".1f"}]}}, {"mark": {"type": "text", "dy": -6, "color": "black", "fontWeight": "bold"}, "encoding": {"x": {"field": "GraphicsReplicabilityStamp_clean", "type": "nominal"}, "y": {"field": "count", "type": "quantitative"}, "detail": {"field": "AutoVisFlag"}, "text": {"field": "median_Citation", "type": "quantitative", "format": ".0f"}}}], "resolve": {"scale": {"x": "independent"}}, "config": {"axis": {"labelFontSize": 12, "titleFontSize": 13}, "legend": {"labelFontSize": 12, "titleFontSize": 13}}}, {
+            actions: false,
+            renderer: 'canvas',
+          })
+          .catch(console.error);
+        </script>
+        <p class='text-sm text-gray-600 mt-2 text-center'>
+          <p class="text-gray-700 leading-relaxed mb-4">The distribution of GraphicsReplicabilityStamp and related reproducibility indicators makes a stark point: formal reproducibility signals are almost absent for AutoVis papers. Given the field’s reliance on code, models, and datasets, the community should prioritize artifact sharing and adopt clear evaluation standards; practical steps include requiring artifact submission where possible, curating shared benchmarks (datasets and tasks), encouraging replication or replication tracks, and promoting common evaluation protocols for recommendation and generation systems so that advances can be reliably compared and built upon.</p>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const toc = document.getElementById('toc');
+  if (!toc) return;
+
+  const headers = document.querySelectorAll('article h2, article h3');
+  headers.forEach(h => {
+    let id = h.textContent.trim().replace(/\s+/g, '-').toLowerCase();
+    h.setAttribute('id', id);
+
+    const link = document.createElement('a');
+    link.href = '#' + id;
+    link.textContent = h.textContent;
+    link.className = (h.tagName === 'H2'
+      ? 'block font-semibold mb-1'      : 'block ml-4 text-gray-500') + ' hover:text-primary-600';
+
+    toc.appendChild(link);
+  });
+});
+</script>
+    </article>
+  </main>
+  <footer class='border-t mt-12 py-6 text-center text-sm text-gray-500'>
+    © 2025 Agentic VIS
+  </footer>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+  const tocList = document.getElementById('toc-list');
+  const headers = document.querySelectorAll('article h2, article h3');
+  const links = [];
+
+  headers.forEach((h, idx) => {
+    let id = h.textContent.trim().replace(/\s+/g, '-').toLowerCase() + '-' + idx;
+    h.setAttribute('id', id);
+
+    const li = document.createElement('li');
+    li.className = 'flex items-center space-x-2';
+
+    const dot = document.createElement('span');
+    dot.className = 'w-2 h-2 rounded-full border border-gray-300';
+    li.appendChild(dot);
+
+    const link = document.createElement('a');
+    link.href = '#' + id;
+
+    const text = h.textContent.trim();
+    link.textContent = text.length > 40 ? text.slice(0, 37) + '…' : text;
+    link.title = text;
+
+    link.className = 'block truncate text-gray-400 hover:text-gray-600';
+    if (h.tagName === 'H3') {
+      link.className += ' ml-4';
+    }
+
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.getElementById(id);
+      if (target) {
+        const y = target.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    });
+
+    li.appendChild(link);
+    tocList.appendChild(li);
+    links.push({id, link, el: h, dot});
+  });
+
+  function onScroll() {
+    let scrollPos = document.documentElement.scrollTop || document.body.scrollTop;
+    let current;
+    links.forEach(item => {
+      if (item.el.offsetTop - 120 <= scrollPos) {
+        current = item;
+      }
+    });
+    links.forEach(item => {
+      item.link.classList.remove('font-semibold', 'text-black');
+      item.link.classList.add('text-gray-400');
+      item.dot.className = 'w-2 h-2 rounded-full border border-gray-300';
+    });
+    if (current) {
+      current.link.classList.remove('text-gray-400');
+      current.link.classList.add('font-semibold', 'text-black');
+      current.dot.className = 'w-2 h-2 rounded-full bg-black';
+    }
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+});
+</script>
+<script>
+window.addEventListener('scroll', function () {
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const progress = (scrollTop / docHeight) * 100;
+  document.getElementById('progress-bar').style.width = progress + '%';
+});
+</script></body>
+</html>
